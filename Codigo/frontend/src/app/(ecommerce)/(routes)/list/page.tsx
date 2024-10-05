@@ -1,3 +1,4 @@
+import { ListProduct } from '@/components/list-product'
 import {
   Breadcrumb,
   BreadcrumbList,
@@ -28,7 +29,12 @@ export default function ListPage() {
       <div className="mx-auto max-w-screen-2xl h-full border-t-[1px] border-[#E5E5E5] py-8">
         <Listbreadcrumb />
         <h1 className="mt-4 text-[2.25rem] font-bold ">Lista de Produtos</h1>
-
+        <div className="mt-6 w-full flex flex-col gap-8">
+          <ListProduct />
+          <ListProduct />
+          <ListProduct />
+          <ListProduct />
+        </div>
         <div className="mt-6 w-full flex justify-center">
           <Button variant="rounded" size="lg">
             Carregar outros

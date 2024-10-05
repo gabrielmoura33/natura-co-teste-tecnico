@@ -1,3 +1,5 @@
+import { CartItem } from '@/components/cart-item'
+import { CartSummary } from '@/components/cart-summary'
 import {
   Breadcrumb,
   BreadcrumbList,
@@ -6,6 +8,8 @@ import {
   BreadcrumbSeparator,
   BreadcrumbPage,
 } from '@/components/ui/breadcrumb'
+import { Divisor } from '@/components/ui/divisor'
+
 import { ScrollArea } from '@/components/ui/scroll-area'
 
 const CartBreadcrumb = () => (
@@ -29,21 +33,17 @@ export default function CartPage() {
         <CartBreadcrumb />
         <h1 className="mt-4 text-[2.25rem] font-bold ">Seu carrinho</h1>
 
-        <section className="grid lg:grid-cols-2 gap-12 mt-4">
-          <ScrollArea className="w-full flex flex-col h-[34rem] border border-[#E5E5E5] py-8 px-4 gap-4">
-            <div className="w-full h-[8rem] bg-slate-500"></div>
-            <div className="border-t-[1px] border-[#E5E5E5] my-4"></div>
-            <div className="w-full h-[8rem] bg-slate-500"></div>
-            <div className="border-t-[1px] border-[#E5E5E5] my-4"></div>
-            <div className="w-full h-[8rem] bg-slate-500"></div>
-            <div className="border-t-[1px] border-[#E5E5E5] my-4"></div>
-            <div className="w-full h-[8rem] bg-slate-500"></div>
-
-            <div className="border-t-[1px] border-[#E5E5E5] my-4"></div>
-
-            <div className="w-full h-[8rem] bg-slate-500"></div>
+        <section className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-20 mt-4">
+          <ScrollArea className="w-full flex flex-col h-[34rem] border border-[#E5E5E5] rounded-[1rem] py-8 px-4 gap-4">
+            <CartItem />
+            <Divisor />
+            <CartItem />
+            <Divisor />
+            <CartItem />
+            <Divisor />
+            <CartItem />
           </ScrollArea>
-          <div className="w-full h-[30rem] border rounded-[1rem] border-[#E5E5E5]"></div>
+          <CartSummary />
         </section>
       </div>
     </main>

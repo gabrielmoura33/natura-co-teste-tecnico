@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { Lora } from 'next/font/google'
 import './globals.css'
-import { ClerkProvider } from '@clerk/nextjs'
 import { ToasterProvider } from '../components/toaster-provider'
 
 const lora = Lora({ subsets: ['latin'] })

@@ -1,0 +1,71 @@
+import { create } from 'zustand'
+import { CartState, Product } from './interfaces'
+
+export const useCartStore = create<CartState>((set, get) => ({
+  cartItems: [],
+  shippingCost: 0,
+  subtotal: 0,
+  totalDiscount: 0,
+  totalAmount: 0,
+
+  addProduct: (product: Product, quantity = 1) => {
+    const cartItems = [...get().cartItems]
+    const existingItem = cartItems.find(
+      (item) => item.product.id === product.id,
+    )
+
+    if (existingItem) {
+      existingItem.quantity += quantity
+    } else {
+      cartItems.push({ product, quantity })
+    }
+
+    set({ cartItems })
+    get().recalculateTotals()
+  },
+
+  removeProduct: (productId: string) => {
+    const cartItems = get().cartItems.filter(
+      (item) => item.product.id !== productId,
+    )
+    set({ cartItems })
+    get().recalculateTotals()
+  },
+
+  updateQuantity: (productId: string, quantity: number) => {
+    const cartItems = [...get().cartItems]
+    const item = cartItems.find((item) => item.product.id === productId)
+
+    if (item) {
+      item.quantity = quantity
+      set({ cartItems })
+      get().recalculateTotals()
+    }
+  },
+
+  setShippingCost: (cost: number) => {
+    set({ shippingCost: cost })
+    get().recalculateTotals()
+  },
+
+  recalculateTotals: () => {
+    const { cartItems, shippingCost } = get()
+
+    const subtotal = cartItems.reduce(
+      (total, item) => total + item.product.discountedPrice * item.quantity,
+      0,
+    )
+
+    const totalDiscount = cartItems.reduce(
+      (total, item) =>
+        total +
+        (item.product.originalPrice - item.product.discountedPrice) *
+          item.quantity,
+      0,
+    )
+
+    const totalAmount = subtotal + shippingCost
+
+    set({ subtotal, totalDiscount, totalAmount })
+  },
+}))

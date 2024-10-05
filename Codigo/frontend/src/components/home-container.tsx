@@ -1,3 +1,4 @@
+import { HomeProduct } from './home-product'
 import { Button } from './ui/button'
 
 type Props = {
@@ -10,11 +11,12 @@ export function HomeContainer({ title }: Props) {
         <h1 className="mb-6 text-4xl font-bold">{title}</h1>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-16">
-        <div className="w-full h-[26.6875rem] bg-slate-500"></div>
-        <div className="w-full h-[26.6875rem] bg-slate-500"></div>
-        <div className="w-full h-[26.6875rem] bg-slate-500"></div>
-        <div className="w-full h-[26.6875rem] bg-slate-500"></div>
+        <HomeProduct />
+        <HomeProduct />
+        <HomeProduct />
+        <HomeProduct />
       </div>
+
       <div className="mt-6 w-full flex justify-center">
         <Button variant="rounded" size="lg">
           Carregar outros
