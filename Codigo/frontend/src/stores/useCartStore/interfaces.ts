@@ -1,8 +1,13 @@
 export interface Product {
-  id: string
+  _id: string
   name: string
+  description: string
   originalPrice: number
-  discountedPrice: number
+  price: number
+  stock: number
+  slug: string
+  rating: number
+  image: string
 }
 
 export interface CartItem {

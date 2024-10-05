@@ -1,33 +1,47 @@
+/* eslint-disable @next/next/no-img-element */
 'use client'
 import { Trash } from 'lucide-react'
 import IncreaseButton from './increase-button'
-import { useState } from 'react'
+import { CartItem as ICartItem } from '@/stores/useCartStore/interfaces'
+import { useCartStore } from '@/stores/useCartStore'
+import { formatCurrencyBRL } from '@/utils/formatCurrency'
 
-export function CartItem() {
-  const [amount, setAmount] = useState(0)
+interface CartItemProps {
+  key: string
+  cartItem: ICartItem
+}
+export function CartItem({ key, cartItem }: CartItemProps) {
+  const { product, quantity } = cartItem
+  const { updateQuantity, removeProduct } = useCartStore()
+
+  const onUpdateQuantity = (quantity: number) => {
+    updateQuantity(product._id, quantity)
+  }
+  const onRemove = () => removeProduct(product._id)
   return (
-    <div className="w-full h-[8rem] flex gap-8 relative">
+    <div className="w-full h-[8rem] flex gap-8 relative" key={key}>
       <div className="h-full w-28">
         <img
-          src="https://m.media-amazon.com/images/I/51zB3lt+upL.jpg"
-          alt=""
-          width={10}
-          height={10}
+          src={product.image}
+          alt={product.description}
           className="h-full w-full rounded-sm"
         />
       </div>
       <section className="flex flex-col gap-16">
-        <h1 className="text-xl font-bold">Body Splash</h1>
-        <span className="textbase">R$ 145,00</span>
+        <h1 className="text-xl font-bold">{product.name}</h1>
+        <span className="textbase">{formatCurrencyBRL(product.price)}</span>
       </section>
       <IncreaseButton
         className="absolute bottom-0 right-5"
-        value={amount}
+        value={quantity}
         max={15}
-        onIncrease={() => setAmount(amount + 1)}
-        onDecrease={() => setAmount(amount - 1)}
+        onIncrease={() => onUpdateQuantity(quantity + 1)}
+        onDecrease={() => onUpdateQuantity(quantity - 1)}
       />
-      <button className="flex items-center text-red-400 absolute top-0 right-5">
+      <button
+        className="flex items-center text-red-400 absolute top-0 right-5"
+        onClick={onRemove}
+      >
         <span>
           <Trash size={25} />
         </span>

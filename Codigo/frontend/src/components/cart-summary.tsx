@@ -1,28 +1,39 @@
+'use client'
 import { Tag } from 'lucide-react'
 import { Button } from './ui/button'
 import { Divisor } from './ui/divisor'
 import { Input } from './ui/input'
+import { useCartStore } from '@/stores/useCartStore'
+import { formatCurrencyBRL } from '@/utils/formatCurrency'
+import { calculateDiscountPercentage } from '@/utils/calculateDiscount'
 
 export function CartSummary() {
+  const { totalAmount, totalDiscount, subtotal, shippingCost } = useCartStore()
   return (
     <div className="w-full flex flex-col h-[30rem] border rounded-[1rem] border-[#E5E5E5] py-8 px-4 gap-4 ">
       <h1 className="text-2xl font-bold">Sumário</h1>
       <div className="flex justify-between">
         <span className="font-bold text-xl text-g-250">Subtotal</span>
-        <strong>R$ 805,00</strong>
+        <strong>{formatCurrencyBRL(subtotal)}</strong>
       </div>
       <div className="flex justify-between">
-        <span className="font-bold text-xl text-g-250">Desconto (-20%)</span>
-        <strong>-R$ 805,00</strong>
+        <span className="font-bold text-xl text-g-250">
+          Desconto
+          {totalDiscount > 0 &&
+            calculateDiscountPercentage(subtotal, totalAmount)}
+        </span>
+        <strong className="text-red-400">
+          -{formatCurrencyBRL(totalDiscount)}
+        </strong>
       </div>
       <div className="flex justify-between">
         <span className="font-bold text-xl text-g-250">Frete</span>
-        <strong>R$ 15,00</strong>
+        <strong>{formatCurrencyBRL(shippingCost)}</strong>
       </div>
       <Divisor />
       <div className="flex justify-between">
-        <h1>Total</h1>
-        <strong>R$ 644,00</strong>
+        <h1 className="font-bold text-xl">Total</h1>
+        <strong>{formatCurrencyBRL(totalAmount)}</strong>
       </div>
       <div className="flex gap-4">
         <Input icon={<Tag size={25} />} placeholder="Cupom" variant="rounded" />

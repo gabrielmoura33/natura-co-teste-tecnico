@@ -11,13 +11,18 @@ export const useCartStore = create<CartState>((set, get) => ({
   addProduct: (product: Product, quantity = 1) => {
     const cartItems = [...get().cartItems]
     const existingItem = cartItems.find(
-      (item) => item.product.id === product.id,
+      (item) => item.product._id === product._id,
     )
+    const totalDesiredQuantity = existingItem
+      ? existingItem.quantity + quantity
+      : quantity
+
+    const finalQuantity = Math.min(totalDesiredQuantity, product.stock)
 
     if (existingItem) {
-      existingItem.quantity += quantity
+      existingItem.quantity = finalQuantity
     } else {
-      cartItems.push({ product, quantity })
+      cartItems.push({ product, quantity: finalQuantity })
     }
 
     set({ cartItems })
@@ -26,7 +31,7 @@ export const useCartStore = create<CartState>((set, get) => ({
 
   removeProduct: (productId: string) => {
     const cartItems = get().cartItems.filter(
-      (item) => item.product.id !== productId,
+      (item) => item.product._id !== productId,
     )
     set({ cartItems })
     get().recalculateTotals()
@@ -34,10 +39,11 @@ export const useCartStore = create<CartState>((set, get) => ({
 
   updateQuantity: (productId: string, quantity: number) => {
     const cartItems = [...get().cartItems]
-    const item = cartItems.find((item) => item.product.id === productId)
+    const item = cartItems.find((item) => item.product._id === productId)
 
     if (item) {
-      item.quantity = quantity
+      const finalQuantity = Math.min(quantity, item.product.stock)
+      item.quantity = finalQuantity
       set({ cartItems })
       get().recalculateTotals()
     }
@@ -52,15 +58,14 @@ export const useCartStore = create<CartState>((set, get) => ({
     const { cartItems, shippingCost } = get()
 
     const subtotal = cartItems.reduce(
-      (total, item) => total + item.product.discountedPrice * item.quantity,
+      (total, item) => total + item.product.price * item.quantity,
       0,
     )
 
     const totalDiscount = cartItems.reduce(
       (total, item) =>
         total +
-        (item.product.originalPrice - item.product.discountedPrice) *
-          item.quantity,
+        (item.product.originalPrice - item.product.price) * item.quantity,
       0,
     )
 
