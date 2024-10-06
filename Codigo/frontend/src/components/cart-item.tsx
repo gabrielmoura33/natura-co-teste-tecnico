@@ -5,6 +5,18 @@ import IncreaseButton from './increase-button'
 import { CartItem as ICartItem } from '@/stores/useCartStore/interfaces'
 import { formatCurrencyBRL } from '@/utils/formatCurrency'
 import { useCart } from '@/hooks/use-cart'
+import {
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogFooter,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogCancel,
+  AlertDialogAction,
+} from '@/components/ui/alert-dialog'
+import { useState } from 'react'
 
 interface CartItemProps {
   key: string
@@ -13,11 +25,17 @@ interface CartItemProps {
 export function CartItem({ key, cartItem }: CartItemProps) {
   const { product, quantity } = cartItem
   const { updateQuantity, removeProduct } = useCart()
+  const [open, setOpen] = useState(false)
 
   const onUpdateQuantity = (quantity: number) => {
     updateQuantity(product._id, quantity)
   }
-  const onRemove = () => removeProduct(product._id)
+
+  const onRemove = () => {
+    removeProduct(product._id)
+    setOpen(false)
+  }
+
   return (
     <div className="w-full h-[8rem] flex gap-8 relative" key={key}>
       <div className="h-full w-28">
@@ -38,14 +56,27 @@ export function CartItem({ key, cartItem }: CartItemProps) {
         onIncrease={() => onUpdateQuantity(quantity + 1)}
         onDecrease={() => onUpdateQuantity(quantity - 1)}
       />
-      <button
-        className="flex items-center text-red-400 absolute top-0 right-5"
-        onClick={onRemove}
-      >
-        <span>
-          <Trash size={25} />
-        </span>
-      </button>
+
+      <AlertDialog open={open} onOpenChange={setOpen}>
+        <AlertDialogTrigger asChild>
+          <button className="flex items-center text-red-400 absolute top-0 right-5">
+            <Trash size={25} />
+          </button>
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Confirmar exclusão</AlertDialogTitle>
+            <AlertDialogDescription>
+              Tem certeza que deseja remover este item do carrinho? Esta ação
+              não pode ser desfeita.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction onClick={onRemove}>Confirmar</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   )
 }

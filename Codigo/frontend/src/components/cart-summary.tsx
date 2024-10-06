@@ -6,9 +6,20 @@ import { Input } from './ui/input'
 import { formatCurrencyBRL } from '@/utils/formatCurrency'
 import { calculateDiscountPercentage } from '@/utils/calculateDiscount'
 import { useCart } from '@/hooks/use-cart'
+import { useForm } from 'react-hook-form'
 
 export function CartSummary() {
-  const { totalAmount, totalDiscount, subtotal, shippingCost } = useCart()
+  const { totalAmount, totalDiscount, subtotal, shippingCost, applyCoupon } =
+    useCart()
+  const { register, handleSubmit } = useForm()
+
+  const onSubmitCoupon = (data: any) => {
+    const { couponCode } = data
+    if (couponCode) {
+      applyCoupon(couponCode)
+    }
+  }
+
   return (
     <div className="w-full flex flex-col h-[30rem] border rounded-[1rem] border-[#E5E5E5] py-8 px-4 gap-4 ">
       <h1 className="text-2xl font-bold">Sumário</h1>
@@ -20,7 +31,7 @@ export function CartSummary() {
         <span className="font-bold text-xl text-g-250">
           Desconto
           {totalDiscount > 0 &&
-            calculateDiscountPercentage(subtotal, totalAmount)}
+            ` (${calculateDiscountPercentage(subtotal, totalAmount)}%)`}
         </span>
         <strong className="text-red-400">
           -{formatCurrencyBRL(totalDiscount)}
@@ -35,17 +46,29 @@ export function CartSummary() {
         <h1 className="font-bold text-xl">Total</h1>
         <strong>{formatCurrencyBRL(totalAmount)}</strong>
       </div>
-      <div className="flex gap-4">
-        <Input icon={<Tag size={25} />} placeholder="Cupom" variant="rounded" />
-        <Button className="bg-black text-white" variant="rounded" size="lg">
+      <form onSubmit={handleSubmit(onSubmitCoupon)} className="flex gap-4">
+        <Input
+          icon={<Tag size={25} />}
+          placeholder="Cupom"
+          variant="rounded"
+          {...register('couponCode')}
+        />
+        <Button
+          disabled={totalAmount <= 0}
+          className="bg-black text-white"
+          variant="rounded"
+          size="lg"
+          type="submit"
+        >
           Aplicar
         </Button>
-      </div>
+      </form>
       <div className="flex gap-4">
         <Button
           variant="rounded"
           size="lg"
           className="bg-primary text-white w-full"
+          disabled={totalAmount <= 0}
         >
           Finalizar Compra
         </Button>

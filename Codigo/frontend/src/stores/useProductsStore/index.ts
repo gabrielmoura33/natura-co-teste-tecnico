@@ -7,6 +7,7 @@ interface ProductState {
   totalPages: number
   totalProducts: number
   setProducts: (products: Product[]) => void
+  updateProducts: (updater: (prevProducts: Product[]) => Product[]) => void
   setPagination: (
     currentPage: number,
     totalPages: number,
@@ -20,6 +21,8 @@ export const useProductStore = create<ProductState>((set) => ({
   totalPages: 1,
   totalProducts: 0,
   setProducts: (products) => set({ products }),
+  updateProducts: (updater) =>
+    set((state) => ({ products: updater(state.products) })),
   setPagination: (currentPage, totalPages, totalProducts) =>
     set({ currentPage, totalPages, totalProducts }),
 }))

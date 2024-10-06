@@ -4,6 +4,7 @@ import {
   removeProductFromCart,
   updateProductQuantityInCart,
   setShippingCostInCart,
+  applyCouponInCart,
 } from '@/services/cart.service'
 import { useCartStore } from '@/stores/useCartStore'
 import { Product } from '@/stores/useCartStore/interfaces'
@@ -22,6 +23,7 @@ export const useCart = () => {
     totalAmount,
     shippingCost,
     setCartItems,
+    applyCoupon,
   } = useCartStore()
   const queryClient = useQueryClient()
 
@@ -51,6 +53,16 @@ export const useCart = () => {
     mutationFn: (productId: string) => removeProductFromCart(productId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['cartItems'] })
+    },
+  })
+
+  const applyCouponMutation = useMutation({
+    mutationFn: async (couponCode: string) => applyCouponInCart(couponCode),
+    onSuccess: (data) => {
+      if (data.success) {
+        applyCoupon(data.discount)
+        queryClient.invalidateQueries({ queryKey: ['cartItems'] })
+      }
     },
   })
 
@@ -91,6 +103,9 @@ export const useCart = () => {
     setShippingCost: (cost: number) => {
       setShippingCostMutation.mutate(cost)
       setShippingCost(cost)
+    },
+    applyCoupon: (couponCode: string) => {
+      applyCouponMutation.mutate(couponCode)
     },
     subtotal,
     totalDiscount,

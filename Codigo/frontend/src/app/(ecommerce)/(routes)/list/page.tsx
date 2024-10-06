@@ -30,11 +30,6 @@ export default function ListPage() {
         <Listbreadcrumb />
         <h1 className="mt-4 text-[2.25rem] font-bold ">Lista de Produtos</h1>
         <ListProducts />
-        <div className="mt-6 w-full flex justify-center">
-          <Button variant="rounded" size="lg">
-            Carregar outros
-          </Button>
-        </div>
       </div>
     </main>
   )

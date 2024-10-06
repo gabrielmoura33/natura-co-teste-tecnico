@@ -7,6 +7,8 @@ export const useCartStore = create<CartState>((set, get) => ({
   subtotal: 0,
   totalDiscount: 0,
   totalAmount: 0,
+  couponDiscount: 0,
+  appliedCoupon: '',
 
   setCartItems: (items: CartItem[]) => {
     set({ cartItems: items })
@@ -77,5 +79,25 @@ export const useCartStore = create<CartState>((set, get) => ({
     const totalAmount = subtotal + shippingCost
 
     set({ subtotal, totalDiscount, totalAmount })
+  },
+
+  applyCoupon: (couponCode: string) => {
+    const validCoupons = {
+      EASTER_EGG: 10,
+      FRESCORDEVAGA: 20,
+      SABORDEVITORIA: 30,
+      NATURA: 100,
+    } as {
+      [key: string]: number
+    }
+
+    if (validCoupons[couponCode]) {
+      const discount = validCoupons[couponCode] * get().subtotal
+      set({ couponDiscount: discount, appliedCoupon: couponCode })
+    } else {
+      set({ couponDiscount: 0, appliedCoupon: '' })
+    }
+
+    get().recalculateTotals()
   },
 }))

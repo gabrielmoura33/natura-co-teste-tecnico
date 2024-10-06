@@ -13,14 +13,18 @@ import {
 } from './ui/select'
 import { Search, ShoppingCart, User } from 'lucide-react'
 import { useForm } from 'react-hook-form'
+import { UserButton, useUser } from '@clerk/nextjs'
 
 export function Header() {
   const router = useRouter()
   const { register, handleSubmit } = useForm()
+  const { isSignedIn } = useUser()
+
   const onSearch = (data: any) => {
     const { search } = data
     router.push(`/list?search=${search}`)
   }
+
   return (
     <div className="flex flex-col">
       <div className="w-full max-w-[90%] self-center h-[2rem] bg-[#4E4E4E] text-center text-white">
@@ -55,12 +59,16 @@ export function Header() {
             href="/cart"
             tooltipText="Minhas compras"
           />
-          <IconLink
-            icon={<User size={25} />}
-            className="text-black"
-            href="/"
-            tooltipText="Fazer login"
-          />
+          {isSignedIn ? (
+            <UserButton />
+          ) : (
+            <IconLink
+              icon={<User size={25} />}
+              className="text-black"
+              href="/sign-in"
+              tooltipText="Fazer login"
+            />
+          )}
         </div>
       </form>
     </div>

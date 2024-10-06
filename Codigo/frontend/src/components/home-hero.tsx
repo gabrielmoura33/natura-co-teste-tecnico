@@ -34,6 +34,7 @@ export function HomeHero({
         <span className="text-base text-white">{subtitle}</span>
         <div className="w-5 mt-10">
           <Button
+            className="hover:text-white"
             size="lg"
             variant="rounded"
             onClick={() => handleNavigate(path)}

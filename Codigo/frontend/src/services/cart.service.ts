@@ -31,3 +31,10 @@ export const updateProductQuantityInCart = async (
 export const setShippingCostInCart = async (cost: number): Promise<void> => {
   await axios.put(`${API_URL}/cart/shipping`, { cost })
 }
+
+export const applyCouponInCart = async (couponCode: string) => {
+  const response = await axios.post(`${API_URL}/cart/apply-coupon`, {
+    couponCode,
+  })
+  return response.data
+}

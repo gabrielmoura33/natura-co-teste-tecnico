@@ -7,6 +7,7 @@ import Rating from './ui/rating'
 import { useState } from 'react'
 import { useCart } from '@/hooks/use-cart'
 import { sleep } from '@/utils/sleep'
+import toast from 'react-hot-toast'
 
 interface ListProduct {
   key: string
@@ -21,6 +22,8 @@ export function ListProduct({ key, product }: ListProduct) {
     setLoading(true)
     await sleep(1000)
     addProduct(product)
+    toast.success('Adicionado ao carrinho!')
+
     setLoading(false)
   }
 
