@@ -2,6 +2,9 @@
 import { HomeHero } from '@/components/home-hero'
 import { HomeContainer } from '@/components/home-container'
 
+/**
+ * @todo: implement a fake CMS to fill content
+ */
 const HomePage = () => {
   return (
     <div className="h-full">

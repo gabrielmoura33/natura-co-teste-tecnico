@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Lora } from 'next/font/google'
 import './globals.css'
 import { ToasterProvider } from '../components/toaster-provider'
+import ReactQueryProvider from '@/providers/react-query'
 
 const lora = Lora({ subsets: ['latin'] })
 
@@ -18,8 +19,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={lora.className}>
-        <ToasterProvider />
-        {children}
+        <ReactQueryProvider>
+          <ToasterProvider />
+          {children}
+        </ReactQueryProvider>
       </body>
     </html>
   )

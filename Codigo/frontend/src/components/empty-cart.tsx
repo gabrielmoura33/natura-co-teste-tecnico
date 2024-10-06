@@ -13,7 +13,7 @@ const LottieEmptyCart: React.FC = () => {
   }
 
   return (
-    <div className="cursor-default">
+    <div className="cursor-default pointer-events-none">
       <Lottie options={defaultOptions} height={400} width={400} />
     </div>
   )

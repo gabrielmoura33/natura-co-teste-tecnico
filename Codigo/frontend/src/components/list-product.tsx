@@ -3,9 +3,10 @@
 import { Product } from '@/stores/useCartStore/interfaces'
 import { Button } from './ui/button'
 import { formatCurrencyBRL } from '@/utils/formatCurrency'
-import { useCartStore } from '@/stores/useCartStore'
 import Rating from './ui/rating'
 import { useState } from 'react'
+import { useCart } from '@/hooks/use-cart'
+import { sleep } from '@/utils/sleep'
 
 interface ListProduct {
   key: string
@@ -14,13 +15,15 @@ interface ListProduct {
 
 export function ListProduct({ key, product }: ListProduct) {
   const { price, name, image, description, rating, originalPrice } = product
-  const { addProduct } = useCartStore()
+  const { addProduct } = useCart()
   const [loading, setLoading] = useState(false)
-  function onAddProduct() {
+  async function onAddProduct() {
     setLoading(true)
+    await sleep(1000)
     addProduct(product)
     setLoading(false)
   }
+
   return (
     <div className="w-[43rem] h-[21rem] flex gap-8" key={key}>
       <div className="h-full w-full">

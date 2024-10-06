@@ -1,4 +1,3 @@
-import { CartItem } from '@/components/cart-item'
 import { CartSummary } from '@/components/cart-summary'
 import {
   Breadcrumb,

@@ -3,12 +3,12 @@ import { Tag } from 'lucide-react'
 import { Button } from './ui/button'
 import { Divisor } from './ui/divisor'
 import { Input } from './ui/input'
-import { useCartStore } from '@/stores/useCartStore'
 import { formatCurrencyBRL } from '@/utils/formatCurrency'
 import { calculateDiscountPercentage } from '@/utils/calculateDiscount'
+import { useCart } from '@/hooks/use-cart'
 
 export function CartSummary() {
-  const { totalAmount, totalDiscount, subtotal, shippingCost } = useCartStore()
+  const { totalAmount, totalDiscount, subtotal, shippingCost } = useCart()
   return (
     <div className="w-full flex flex-col h-[30rem] border rounded-[1rem] border-[#E5E5E5] py-8 px-4 gap-4 ">
       <h1 className="text-2xl font-bold">Sumário</h1>

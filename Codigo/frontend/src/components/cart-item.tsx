@@ -3,8 +3,8 @@
 import { Trash } from 'lucide-react'
 import IncreaseButton from './increase-button'
 import { CartItem as ICartItem } from '@/stores/useCartStore/interfaces'
-import { useCartStore } from '@/stores/useCartStore'
 import { formatCurrencyBRL } from '@/utils/formatCurrency'
+import { useCart } from '@/hooks/use-cart'
 
 interface CartItemProps {
   key: string
@@ -12,7 +12,7 @@ interface CartItemProps {
 }
 export function CartItem({ key, cartItem }: CartItemProps) {
   const { product, quantity } = cartItem
-  const { updateQuantity, removeProduct } = useCartStore()
+  const { updateQuantity, removeProduct } = useCart()
 
   const onUpdateQuantity = (quantity: number) => {
     updateQuantity(product._id, quantity)

@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { CartState, Product } from './interfaces'
+import { CartItem, CartState, Product } from './interfaces'
 
 export const useCartStore = create<CartState>((set, get) => ({
   cartItems: [],
@@ -7,6 +7,11 @@ export const useCartStore = create<CartState>((set, get) => ({
   subtotal: 0,
   totalDiscount: 0,
   totalAmount: 0,
+
+  setCartItems: (items: CartItem[]) => {
+    set({ cartItems: items })
+    get().recalculateTotals()
+  },
 
   addProduct: (product: Product, quantity = 1) => {
     const cartItems = [...get().cartItems]

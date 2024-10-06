@@ -1,0 +1,28 @@
+{
+  "products": [
+    {
+      "_id": "1",
+      "name": "Smartphone XYZ",
+      "description": "Um smartphone com excelentes recursos.",
+      "originalPrice": 1500,
+      "price": 1200,
+      "stock": 20,
+      "slug": "smartphone-xyz",
+      "rating": 4.5,
+      "image": "https://example.com/images/smartphone-xyz.jpg"
+    },
+    {
+      "_id": "2",
+      "name": "Laptop ABC",
+      "description": "Um laptop potente para trabalho e jogos.",
+      "originalPrice": 3000,
+      "price": 2500,
+      "stock": 10,
+      "slug": "laptop-abc",
+      "rating": 4.7,
+      "image": "https://example.com/images/laptop-abc.jpg"
+    }
+  ],
+  "cartItems": [],
+  "shippingCost": 0
+}

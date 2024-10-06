@@ -26,4 +26,5 @@ export interface CartState {
   updateQuantity: (productId: string, quantity: number) => void
   setShippingCost: (cost: number) => void
   recalculateTotals: () => void
+  setCartItems: (items: CartItem[]) => void
 }
