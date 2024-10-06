@@ -1,0 +1,25 @@
+version: '3.8'
+services:
+  redis:
+    image: redis:7.0-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    environment:
+      - REDIS_PASSWORD=docker
+    command: ["redis-server", "--requirepass", "docker"]
+
+  # nestjs-app:
+    # build: .
+    # container_name: nestjs-app
+    # ports:
+    #   - "3000:3000"
+    # depends_on:
+    #   - redis
+    # environment:
+    #   DBAAS_REDIS_HOST: localhost
+    #   DBAAS_REDIS_PORT: 6379
+    #   DBAAS_REDIS_DB: 0
+    #   DBAAS_REDIS_PASSWORD: docker
+    #   DBAAS_REDIS_TLS: 'false'
+    # command: pnpm run start:dev
