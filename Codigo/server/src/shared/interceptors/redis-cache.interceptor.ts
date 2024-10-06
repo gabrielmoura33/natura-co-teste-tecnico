@@ -31,6 +31,12 @@ export class RedisCacheInterceptor implements NestInterceptor {
 
     const request = context.switchToHttp().getRequest();
     const user = request.user;
+
+    // Verifica se o user está presente, caso contrário não busca no cache
+    if (!user) {
+      return next.handle();
+    }
+
     const fullCacheKey = `${cacheKey}:${user?.user}:${JSON.stringify(request.query)}`;
     const cachedResponse: any = await this.redisService.get(fullCacheKey);
 
