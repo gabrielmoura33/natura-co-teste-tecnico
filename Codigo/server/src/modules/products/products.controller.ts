@@ -1,21 +1,17 @@
-import {
-  Controller,
-  Get,
-  Query,
-  UseGuards,
-  UseInterceptors,
-} from '@nestjs/common';
+import { Controller, Get, UseInterceptors } from '@nestjs/common';
 import { RedisCacheInterceptor } from '../..//shared/interceptors/redis-cache.interceptor';
 import { RedisCache } from '../../shared/decorators/redis-cache.decorator';
-import { ClerkAuthGuard } from 'src/shared/guards/clerk-auth.guard';
+import { ClerkUser } from 'src/shared/decorators/clerk-user.decorator';
 
 @Controller('products')
 @UseInterceptors(RedisCacheInterceptor)
 export class ProductsController {
   @Get()
-  @UseGuards(ClerkAuthGuard)
   @RedisCache('product_list')
-  async getProducts(@Query() query: any) {
-    return [1, 2, 3, 4, 5];
+  async getProducts(@ClerkUser() user) {
+    return {
+      user,
+      products: [1, 2, 3, 4, 5],
+    };
   }
 }

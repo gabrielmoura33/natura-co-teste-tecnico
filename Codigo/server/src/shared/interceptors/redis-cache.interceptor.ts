@@ -37,7 +37,7 @@ export class RedisCacheInterceptor implements NestInterceptor {
       return next.handle();
     }
 
-    const fullCacheKey = `${cacheKey}:${user?.user}:${JSON.stringify(request.query)}`;
+    const fullCacheKey = `${cacheKey}:${user?.id}:${JSON.stringify(request.query)}`;
     const cachedResponse: any = await this.redisService.get(fullCacheKey);
 
     if (cachedResponse) {
@@ -49,8 +49,8 @@ export class RedisCacheInterceptor implements NestInterceptor {
         await this.redisService.set(
           fullCacheKey,
           JSON.stringify(response),
-          3600,
-        ); // Cache por 1 hora
+          600, // Cache por 10 minutos
+        );
       }),
     );
   }

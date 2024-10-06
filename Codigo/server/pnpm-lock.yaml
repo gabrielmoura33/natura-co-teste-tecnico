@@ -8,6 +8,9 @@ dependencies:
   '@clerk/clerk-sdk-node':
     specifier: ^5.0.48
     version: 5.0.48(react@18.3.1)
+  '@clerk/express':
+    specifier: ^1.2.1
+    version: 1.2.1(express@4.21.0)(react@18.3.1)
   '@nestjs/common':
     specifier: ^10.0.0
     version: 10.4.4(reflect-metadata@0.1.14)(rxjs@7.8.1)
@@ -509,6 +512,22 @@ packages:
       '@clerk/backend': 1.13.8(react@18.3.1)
       '@clerk/shared': 2.9.0(react@18.3.1)
       '@clerk/types': 4.25.0
+      tslib: 2.4.1
+    transitivePeerDependencies:
+      - react
+      - react-dom
+    dev: false
+
+  /@clerk/express@1.2.1(express@4.21.0)(react@18.3.1):
+    resolution: {integrity: sha512-d4mJxfSzX1+/+NaHGcuZEcCIfwQGstojng3fRxayU2jGy1LYpIDINxzE10i7Sh+wVUAxMQxObD7Efvdsu08otQ==}
+    engines: {node: '>=18.17.0'}
+    peerDependencies:
+      express: ^4.17.0 || ^5.0.0
+    dependencies:
+      '@clerk/backend': 1.13.8(react@18.3.1)
+      '@clerk/shared': 2.9.0(react@18.3.1)
+      '@clerk/types': 4.25.0
+      express: 4.21.0
       tslib: 2.4.1
     transitivePeerDependencies:
       - react

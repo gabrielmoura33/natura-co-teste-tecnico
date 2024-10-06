@@ -1,4 +1,4 @@
-import { verifyToken } from '@clerk/clerk-sdk-node';
+import { getAuth } from '@clerk/express';
 import {
   CanActivate,
   ExecutionContext,
@@ -12,20 +12,9 @@ export class ClerkAuthGuard implements CanActivate {
   async canActivate(context: ExecutionContext) {
     const request = context.switchToHttp().getRequest();
 
-    try {
-      const sessToken = request.cookies.__session;
+    const auth = getAuth(request);
 
-      const bearerToken = request.headers.authorization?.replace('Bearer ', '');
-      const token = sessToken || bearerToken;
-
-      const a = await verifyToken(token, {
-        jwtKey: process.env.CLERK_JWT_KEY,
-        authorizedParties: ['http://localhost:3001'],
-      });
-
-      console.log(a);
-    } catch (error) {
-      this.logger.error(error);
+    if (!auth.userId) {
       return false;
     }
     return true;
