@@ -1,5 +1,5 @@
 <p align="center">
-     <img src="./Artefatos/preview.png" />
+     <img src="./Artefatos/preview-2.png" />
 </p>
 
 # Natura & CO Teste Técnico
