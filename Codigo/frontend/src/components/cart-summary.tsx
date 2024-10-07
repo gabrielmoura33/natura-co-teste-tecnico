@@ -7,17 +7,26 @@ import { formatCurrencyBRL } from '@/utils/formatCurrency'
 import { calculateDiscountPercentage } from '@/utils/calculateDiscount'
 import { useCart } from '@/hooks/use-cart'
 import { useForm } from 'react-hook-form'
+import { useSale } from '@/hooks/use-sale'
+import { useState } from 'react'
 
 export function CartSummary() {
   const { totalAmount, totalDiscount, subtotal, shippingCost, applyCoupon } =
     useCart()
   const { register, handleSubmit } = useForm()
-
+  const { initiateSale } = useSale()
+  const [isLoading, setIsLoading] = useState(false)
   const onSubmitCoupon = (data: any) => {
     const { couponCode } = data
     if (couponCode) {
       applyCoupon(couponCode)
     }
+  }
+
+  const onFinalizeSale = () => {
+    setIsLoading(true)
+    initiateSale()
+    setIsLoading(false)
   }
 
   return (
@@ -69,6 +78,8 @@ export function CartSummary() {
           size="lg"
           className="bg-primary text-white w-full"
           disabled={totalAmount <= 0}
+          onClick={onFinalizeSale}
+          isLoading={isLoading}
         >
           Finalizar Compra
         </Button>

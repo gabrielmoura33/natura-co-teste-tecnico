@@ -68,7 +68,8 @@ export const useCart = () => {
   })
 
   const applyCouponMutation = useMutation({
-    mutationFn: async (couponCode: string) => applyCouponInCart(couponCode),
+    mutationFn: async (couponCode: string) =>
+      await applyCouponInCart(couponCode),
     onSuccess: (data) => {
       if (data.success) {
         applyCoupon(data.discount)
