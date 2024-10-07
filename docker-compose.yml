@@ -1,0 +1,52 @@
+version: '3.8'
+services:
+  nest-api:
+    container_name: nest-api
+    build:
+      context: ./Codigo/server      
+    ports:
+      - "3564:3564"
+    depends_on:
+      - mongodb
+      - redis
+    networks:
+      - app-network
+    env_file:
+      - ./Codigo/server/src/env/development.env
+
+  nextjs:
+    container_name: nextjs
+    build:
+      context: ./Codigo/frontend      
+    ports:
+      - "3000:3000"
+    depends_on:
+      - nest-api
+    networks:
+      - app-network    
+
+  redis:
+    image: redis:7.0-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    environment:
+      - REDIS_PASSWORD=docker
+    command: ["redis-server", "--requirepass", "docker"]
+    networks:
+      - app-network
+
+  mongodb:
+    image: mongo:5.0
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
