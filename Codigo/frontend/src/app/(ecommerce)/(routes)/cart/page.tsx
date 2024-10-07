@@ -1,4 +1,7 @@
+'use client'
+import { CartItem } from '@/components/cart-item'
 import { CartSummary } from '@/components/cart-summary'
+import LottieEmptyCart from '@/components/empty-cart'
 import {
   Breadcrumb,
   BreadcrumbList,
@@ -7,7 +10,9 @@ import {
   BreadcrumbSeparator,
   BreadcrumbPage,
 } from '@/components/ui/breadcrumb'
-import { CartList } from '@/components/ui/cart-list'
+import { Divisor } from '@/components/ui/divisor'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import { useCartStore } from '@/stores/useCartStore'
 
 /**
  *
@@ -28,6 +33,7 @@ const CartBreadcrumb = () => (
 )
 
 export default function CartPage() {
+  const { cartItems } = useCartStore()
   return (
     <main className="h-full overflow-auto">
       <div className="mx-auto max-w-screen-2xl h-full border-t-[1px] border-[#E5E5E5] py-8">
@@ -35,7 +41,16 @@ export default function CartPage() {
         <h1 className="mt-4 text-[2.25rem] font-bold ">Seu carrinho</h1>
 
         <section className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-20 mt-4">
-          <CartList />
+          <ScrollArea className="w-full flex flex-col h-[34rem] border border-[#E5E5E5] rounded-[1rem] py-8 px-4 gap-4">
+            {cartItems?.length === 0 && <LottieEmptyCart />}
+            {cartItems?.map((item) => (
+              <>
+                <CartItem cartItem={item} key={item.product._id} />
+                <Divisor />
+              </>
+            ))}
+          </ScrollArea>
+
           <CartSummary />
         </section>
       </div>

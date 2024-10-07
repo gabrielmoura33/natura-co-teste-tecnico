@@ -8,7 +8,15 @@ export class GetProductsUseCase {
   async execute(query: { search?: string; page?: number; limit?: number }) {
     const { search = '', page = 1, limit = 10 } = query;
 
-    const filter = search ? { name: { $regex: search, $options: 'i' } } : {};
+    // Função para remover acentos e normalizar o texto
+    const normalizeText = (text: string) =>
+      text.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+    const normalizedSearch = normalizeText(search);
+
+    const filter = search
+      ? { name: { $regex: new RegExp(normalizedSearch, 'i') } } // Removido o campo $options
+      : {};
 
     const totalProducts = await this.productsRepository.find(filter);
 
