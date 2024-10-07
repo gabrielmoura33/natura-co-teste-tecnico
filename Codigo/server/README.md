@@ -1,7 +1,8 @@
 
 # Documentação da API
 
-Esta documentação fornece detalhes completos sobre a API desenvolvida utilizando NestJS, com módulos de **Produtos** e **Carrinho**, conexão com MongoDB via Mongoose, e implementação de filas com BullMQ para atualização de estoque.
+Esta documentação fornece detalhes completos sobre a API desenvolvida utilizando NestJS, com módulos de **Produtos** e **Carrinho**, conexão com MongoDB via Mongoose, cacheamento de produtos utilizando Redis para otimizar buscas, e implementação de filas com BullMQ para atualização de estoque. Além disso, a API utiliza Clerk para autenticação e gerenciamento de usuários, garantindo a segurança das operações.
+
 
 ## Sumário
 
