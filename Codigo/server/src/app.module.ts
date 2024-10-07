@@ -11,6 +11,7 @@ import { RedisModule } from './shared/services/redis/redis.module';
 import { ClerkAuthMiddleware } from './shared/middlewares/clerk-auth.middleware';
 import { DatabaseModule } from './shared/modules/database/database.module';
 import { CartModule } from './modules/carts/carts.module';
+import { SeedModule } from './shared/modules/seed/seed.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { CartModule } from './modules/carts/carts.module';
     DatabaseModule,
     ProductsModule,
     CartModule,
+    SeedModule,
   ],
   controllers: [],
   providers: [],
