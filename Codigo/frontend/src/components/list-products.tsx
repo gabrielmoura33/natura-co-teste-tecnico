@@ -38,7 +38,12 @@ export function ListProducts() {
       ))}
       {page < totalPages && (
         <div className="mt-6 w-full flex justify-center">
-          <Button variant="rounded" size="lg" onClick={handleLoadMore}>
+          <Button
+            variant="rounded"
+            size="lg"
+            onClick={handleLoadMore}
+            isLoading={isLoading}
+          >
             Carregar outros
           </Button>
         </div>

@@ -23,7 +23,7 @@ export class AddToCartUseCase {
     }
 
     const cartItem = cart.cartItems.find(
-      (item) => item.product.toString() === product._id.toString(),
+      (item) => item.product._id.toString() === product._id.toString(),
     );
 
     if (cartItem) {

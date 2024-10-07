@@ -8,6 +8,7 @@ import {
 } from '@/services/cart.service'
 import { useCartStore } from '@/stores/useCartStore'
 import { Product } from '@/stores/useCartStore/interfaces'
+import { useAuth } from '@clerk/nextjs'
 import { useQueryClient, useQuery, useMutation } from '@tanstack/react-query'
 
 export const useCart = () => {
@@ -26,31 +27,41 @@ export const useCart = () => {
     applyCoupon,
   } = useCartStore()
   const queryClient = useQueryClient()
+  const { getToken } = useAuth()
 
   useQuery({
     queryKey: ['cartItems'],
     queryFn: async () => {
-      const items = await getCartItems()
+      const token = await getToken()
+      const items = await getCartItems({
+        token,
+      })
       setCartItems(items)
       recalculateTotals()
     },
+    staleTime: 0,
+    refetchOnWindowFocus: true,
   })
 
   const addProductMutation = useMutation({
-    mutationFn: ({
+    mutationFn: async ({
       productId,
       quantity,
     }: {
       productId: string
       quantity: number
-    }) => addProductToCart(productId, quantity),
-    onSuccess: () => {
+    }) => {
+      const token = await getToken()
+      await addProductToCart(productId, quantity, token)
       queryClient.invalidateQueries({ queryKey: ['cartItems'] })
     },
   })
 
   const removeProductMutation = useMutation({
-    mutationFn: (productId: string) => removeProductFromCart(productId),
+    mutationFn: async (productId: string) => {
+      const token = await getToken()
+      await removeProductFromCart(productId, token)
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['cartItems'] })
     },
@@ -67,14 +78,15 @@ export const useCart = () => {
   })
 
   const updateQuantityMutation = useMutation({
-    mutationFn: ({
+    mutationFn: async ({
       productId,
       quantity,
     }: {
       productId: string
       quantity: number
-    }) => updateProductQuantityInCart(productId, quantity),
-    onSuccess: () => {
+    }) => {
+      const token = await getToken()
+      await updateProductQuantityInCart(productId, quantity, token)
       queryClient.invalidateQueries({ queryKey: ['cartItems'] })
     },
   })
@@ -89,7 +101,10 @@ export const useCart = () => {
   return {
     cartItems,
     addProduct: (product: Product, quantity = 1) => {
-      addProductMutation.mutate({ productId: product._id, quantity })
+      addProductMutation.mutate({
+        productId: product._id,
+        quantity,
+      })
       addProduct(product, quantity)
     },
     removeProduct: (productId: string) => {

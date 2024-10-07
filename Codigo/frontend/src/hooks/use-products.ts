@@ -2,6 +2,7 @@
 import { getProducts } from '@/services/products.service'
 import { Product } from '@/stores/useCartStore/interfaces'
 import { useProductStore } from '@/stores/useProductsStore'
+import { useAuth } from '@clerk/nextjs'
 import { useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 
@@ -12,11 +13,14 @@ export const useProducts = (
 ) => {
   const { products, updateProducts, setProducts, setPagination } =
     useProductStore()
+  const { getToken } = useAuth()
+
   const { data, isLoading, isSuccess, error } = useQuery({
     enabled: true,
     queryKey: ['products', search, page, limit],
     queryFn: async () => {
-      const data = await getProducts(search, page, limit)
+      const token = await getToken()
+      const data = await getProducts(search, page, limit, token)
       return data
     },
   })

@@ -3,7 +3,6 @@ import { useState } from 'react'
 import { useProducts } from '@/hooks/use-products'
 import { HomeProduct } from './home-product'
 import { Button } from './ui/button'
-import { sleep } from '@/utils/sleep'
 
 type Props = {
   title: string
@@ -15,7 +14,6 @@ export function HomeContainer({ title }: Props) {
   const { products, totalPages, isLoading } = useProducts('', page, 4)
 
   const handleLoadMore = async () => {
-    await sleep(1000)
     setPage((prevPage) => prevPage + 1)
   }
 
