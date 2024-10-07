@@ -267,7 +267,7 @@ GET /products?search=perfume&page=1&limit=5
 #### Obter Carrinho
 
 - **Método:** GET
-- **Endpoint:** `/cart/:id`
+- **Endpoint:** `/cart/`
 - **Descrição:** Retorna o estado atual do carrinho.
 
 ##### Parâmetros de Rota:
@@ -360,7 +360,7 @@ GET /products?search=perfume&page=1&limit=5
 #### Remover Produto do Carrinho
 
 - **Método:** DELETE
-- **Endpoint:** `/cart/:id/remove-product/:productId`
+- **Endpoint:** `/cart/remove/:productId`
 - **Descrição:** Remove um produto do carrinho.
 
 ##### Parâmetros de Rota:
