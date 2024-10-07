@@ -31,7 +31,7 @@ export function CartSummary() {
         <span className="font-bold text-xl text-g-250">
           Desconto
           {totalDiscount > 0 &&
-            ` (${calculateDiscountPercentage(subtotal, totalAmount)}%)`}
+            ` ${calculateDiscountPercentage(subtotal, totalAmount)}`}
         </span>
         <strong className="text-red-400">
           -{formatCurrencyBRL(totalDiscount)}

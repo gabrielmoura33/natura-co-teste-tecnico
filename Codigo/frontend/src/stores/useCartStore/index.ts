@@ -65,7 +65,7 @@ export const useCartStore = create<CartState>((set, get) => ({
     const { cartItems, shippingCost } = get()
 
     const subtotal = cartItems.reduce(
-      (total, item) => total + item.product.price * item.quantity,
+      (total, item) => total + item.product.originalPrice * item.quantity,
       0,
     )
 
@@ -76,7 +76,11 @@ export const useCartStore = create<CartState>((set, get) => ({
       0,
     )
 
-    const totalAmount = subtotal + shippingCost
+    const totalAmount =
+      cartItems.reduce(
+        (total, item) => total + item.product.price * item.quantity,
+        0,
+      ) + shippingCost
 
     set({ subtotal, totalDiscount, totalAmount })
   },

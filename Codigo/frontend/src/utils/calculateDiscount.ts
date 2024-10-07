@@ -7,5 +7,5 @@ export function calculateDiscountPercentage(
   }
 
   const discount = ((originalPrice - price) / originalPrice) * 100
-  return `$ (-${discount.toFixed(0)}%)`
+  return `(-${discount.toFixed(0)}%)`
 }
