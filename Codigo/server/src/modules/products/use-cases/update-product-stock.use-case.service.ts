@@ -5,10 +5,15 @@ import {
 } from '@nestjs/common';
 import { Product } from 'src/shared/modules/database/schemas/product.schema';
 import { ProductsRepository } from '../repositories/products.repository';
+import { InjectQueue } from '@nestjs/bullmq';
+import { Queue } from 'bullmq';
 
 @Injectable()
 export class UpdateProductStockUseCase {
-  constructor(private readonly productsRepository: ProductsRepository) {}
+  constructor(
+    private readonly productsRepository: ProductsRepository,
+    @InjectQueue('stock-update-queue') private readonly stockUpdateQueue: Queue,
+  ) {}
 
   async execute(productId: string, stock: number): Promise<Product> {
     if (stock === undefined || stock < 0) {
@@ -23,15 +28,11 @@ export class UpdateProductStockUseCase {
       throw new NotFoundException('Product not found');
     }
 
-    const updatedProduct = await this.productsRepository.update(
-      { _id: productId },
-      { stock },
-    );
+    await this.stockUpdateQueue.add('update-stock', {
+      productId,
+      stock,
+    });
 
-    if (!updatedProduct) {
-      throw new NotFoundException('Failed to update the stock');
-    }
-
-    return updatedProduct;
+    return { ...existingProduct, stock: stock };
   }
 }

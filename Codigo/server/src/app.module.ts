@@ -12,6 +12,7 @@ import { ClerkAuthMiddleware } from './shared/middlewares/clerk-auth.middleware'
 import { DatabaseModule } from './shared/modules/database/database.module';
 import { CartModule } from './modules/carts/carts.module';
 import { SeedModule } from './shared/modules/seed/seed.module';
+import { JobsModule } from './shared/modules/jobs/jobs.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { SeedModule } from './shared/modules/seed/seed.module';
     ProductsModule,
     CartModule,
     SeedModule,
+    JobsModule,
   ],
   controllers: [],
   providers: [],
