@@ -51,16 +51,24 @@ Crie um arquivo `.env` na raiz do projeto com as seguintes variáveis:
 
 ```env
 # Configurações do MongoDB
-DB_HOST=localhost
-DB_PORT=27017
-DB_NAME=seu_nome_do_banco
-DB_USER=seu_usuario
-DB_PASS=sua_senha
+DBAAS_MONGO_HOST=""
+DBAAS_MONGO_USER=""
+DBAAS_MONGO_PORT="27017"
+DBAAS_MONGO_PASS=""
+DBAAS_MONGO_DB_NAME=""
 
 # Configurações do Redis para BullMQ
 DBAAS_REDIS_HOST=localhost
 DBAAS_REDIS_PORT=6379
 DBAAS_REDIS_PASSWORD=sua_senha_redis (se aplicável)
+
+# Express
+PORT=3564
+
+# Clerk
+CLERK_PUBLISHABLE_KEY=
+CLERK_SECRET_KEY=
+CLERK_JWT_KEY=
 ```
 
 ## Módulo de Produtos
