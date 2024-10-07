@@ -52,7 +52,7 @@ export function CartItem({ key, cartItem }: CartItemProps) {
       <IncreaseButton
         className="absolute bottom-0 right-5"
         value={quantity}
-        max={15}
+        max={product.stock}
         onIncrease={() => onUpdateQuantity(quantity + 1)}
         onDecrease={() => onUpdateQuantity(quantity - 1)}
       />
