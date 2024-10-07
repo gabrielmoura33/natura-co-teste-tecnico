@@ -9,6 +9,8 @@ import { ProductsModule } from './modules/products/products.module';
 import * as path from 'path';
 import { RedisModule } from './shared/services/redis/redis.module';
 import { ClerkAuthMiddleware } from './shared/middlewares/clerk-auth.middleware';
+import { DatabaseModule } from './shared/modules/database/database.module';
+import { CartModule } from './modules/carts/carts.module';
 
 @Module({
   imports: [
@@ -24,6 +26,9 @@ import { ClerkAuthMiddleware } from './shared/middlewares/clerk-auth.middleware'
     }),
     ProductsModule,
     RedisModule,
+    DatabaseModule,
+    ProductsModule,
+    CartModule,
   ],
   controllers: [],
   providers: [],

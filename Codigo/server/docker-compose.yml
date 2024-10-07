@@ -9,6 +9,15 @@ services:
       - REDIS_PASSWORD=docker
     command: ["redis-server", "--requirepass", "docker"]
 
+  mongodb:
+    image: mongo:5.0
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+
   # nestjs-app:
     # build: .
     # container_name: nestjs-app
@@ -16,10 +25,12 @@ services:
     #   - "3000:3000"
     # depends_on:
     #   - redis
+    #   - mongodb
     # environment:
     #   DBAAS_REDIS_HOST: localhost
     #   DBAAS_REDIS_PORT: 6379
     #   DBAAS_REDIS_DB: 0
     #   DBAAS_REDIS_PASSWORD: docker
     #   DBAAS_REDIS_TLS: 'false'
+    #   MONGODB_URI: mongodb://root:example@mongodb:27017/
     # command: pnpm run start:dev
