@@ -41,19 +41,14 @@ Passos para instalação
 1. Clone este repositório:
 ```bash 
     git clone https://github.com/gabrielmoura33/natura-co-teste-tecnico
+    cd natura-co-teste-tecnico
 ```
 
-2. Execute a aplicação em ambos os ambientes:
+2. Inicie todos os serviços usando Docker Compose:
+Na raiz do projeto, execute o seguinte comando para construir e iniciar todos os containers (API NestJS, aplicação Next.js, MongoDB e Redis):
 ```bash 
-    cd Codigo/server
-    docker-compose up -d
-    npm install
-    npm run start:dev
-
-    cd ..
-    cd frontend
-    npm install
-    npm run dev
+   docker-compose build --no-cache
+   docker-compose up -d
 ```
 
 3. Acesse o aplicativo no navegador em http://localhost:3000
