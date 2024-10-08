@@ -9,6 +9,8 @@ import { useCart } from '@/hooks/use-cart'
 import { useForm } from 'react-hook-form'
 import { useSale } from '@/hooks/use-sale'
 import { useState } from 'react'
+import { useAuth } from '@clerk/nextjs'
+import { useRouter } from 'next/navigation'
 
 export function CartSummary() {
   const { totalAmount, totalDiscount, subtotal, shippingCost, applyCoupon } =
@@ -16,6 +18,9 @@ export function CartSummary() {
   const { register, handleSubmit } = useForm()
   const { initiateSale } = useSale()
   const [isLoading, setIsLoading] = useState(false)
+  const { isSignedIn } = useAuth()
+  const router = useRouter()
+
   const onSubmitCoupon = (data: any) => {
     const { couponCode } = data
     if (couponCode) {
@@ -24,9 +29,13 @@ export function CartSummary() {
   }
 
   const onFinalizeSale = () => {
-    setIsLoading(true)
-    initiateSale()
-    setIsLoading(false)
+    if (isSignedIn) {
+      setIsLoading(true)
+      initiateSale()
+      setIsLoading(false)
+    } else {
+      router.push('/sign-in')
+    }
   }
 
   return (
