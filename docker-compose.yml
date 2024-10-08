@@ -13,6 +13,7 @@ services:
       - app-network
     env_file:
       - ./Codigo/server/src/env/development.env
+    restart: unless-stopped
 
   nextjs:
     container_name: nextjs
@@ -24,6 +25,7 @@ services:
       - nest-api
     networks:
       - app-network    
+    restart: unless-stopped
 
   redis:
     image: redis:7.0-alpine
@@ -35,6 +37,7 @@ services:
     command: ["redis-server", "--requirepass", "docker"]
     networks:
       - app-network
+    restart: unless-stopped
 
   mongodb:
     image: mongo:5.0
@@ -46,6 +49,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: example
     networks:
       - app-network
+    restart: unless-stopped
 
 networks:
   app-network:

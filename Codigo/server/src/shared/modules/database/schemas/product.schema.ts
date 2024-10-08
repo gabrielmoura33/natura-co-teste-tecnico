@@ -5,7 +5,7 @@ export type ProductDocument = Product & Document;
 
 @Schema()
 export class Product {
-  _id?: ObjectId;
+  _id: ObjectId;
 
   @Prop()
   name: string;

@@ -13,6 +13,7 @@ import { DatabaseModule } from './shared/modules/database/database.module';
 import { CartModule } from './modules/carts/carts.module';
 import { SeedModule } from './shared/modules/seed/seed.module';
 import { JobsModule } from './shared/modules/jobs/jobs.module';
+import { SaleModule } from './modules/sale/sale.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { JobsModule } from './shared/modules/jobs/jobs.module';
     CartModule,
     SeedModule,
     JobsModule,
+    SaleModule,
   ],
   controllers: [],
   providers: [],

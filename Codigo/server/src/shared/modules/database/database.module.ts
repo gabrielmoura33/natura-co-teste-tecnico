@@ -7,6 +7,9 @@ import { CartRepository } from 'src/modules/carts/repositories/cart.repository';
 import { MongooseCartRepository } from './repositories/mongoose-cart.repository';
 import { Cart, CartSchema } from './schemas/cart.schema';
 import { Product, ProductSchema } from './schemas/product.schema';
+import { SaleRepository } from '../../../modules/sale/repositories/sale.repository';
+import { MongooseSaleRepository } from './repositories/mongoose-sale.repository';
+import { Sale, SaleSchema } from './schemas/sale.schema';
 
 @Module({
   imports: [
@@ -16,6 +19,7 @@ import { Product, ProductSchema } from './schemas/product.schema';
         name: Cart.name,
         schema: CartSchema,
       },
+      { name: Sale.name, schema: SaleSchema },
     ]),
     MongooseModule.forRootAsync({
       useFactory: async (configService: ConfigService) => {
@@ -40,7 +44,11 @@ import { Product, ProductSchema } from './schemas/product.schema';
       provide: CartRepository,
       useClass: MongooseCartRepository,
     },
+    {
+      provide: SaleRepository,
+      useClass: MongooseSaleRepository,
+    },
   ],
-  exports: [ProductsRepository, CartRepository],
+  exports: [ProductsRepository, CartRepository, SaleRepository],
 })
 export class DatabaseModule {}
